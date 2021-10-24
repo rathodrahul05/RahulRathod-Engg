@@ -45,7 +45,7 @@ function ListItem(props: Props) {
           dispatch(nextPage());
         }
       }
-    }, 5000);
+    }, 10000);
   }, [props.currentPage]);
 
   return (
