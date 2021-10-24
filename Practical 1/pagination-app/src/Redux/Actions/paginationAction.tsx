@@ -37,6 +37,11 @@ export const nextPage=()=>{
     type:'NEXT_PAGE'
   }
 }
+export const prevPage=()=>{
+  return{
+    type:'PREV_PAGE'
+  }
+}
 
 export const showItem=(firstIndex:number,lastIndex:number)=>{
   return{
