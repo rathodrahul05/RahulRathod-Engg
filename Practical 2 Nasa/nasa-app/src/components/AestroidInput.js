@@ -31,9 +31,11 @@ function AestroidInput(props) {
     setloading(false);
 
     setaestroidId("");
+    seterror("");
   };
 
   const handleRandomAestroid = async () => {
+    seterror("");
     setloading(true);
     const index = Math.floor(Math.random() * (19 - 0) + 0);
     let response = await axios.get(
@@ -81,7 +83,7 @@ function AestroidInput(props) {
               Random Aestroid
             </button>
             {loading && <Spinner />}
-            {error !== "" && <p>{error}</p>}
+            {error && <p>{error}</p>}
           </div>
         </div>
       </div>
