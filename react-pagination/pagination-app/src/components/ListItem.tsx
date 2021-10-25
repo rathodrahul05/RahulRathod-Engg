@@ -59,7 +59,7 @@ function ListItem(props: Props) {
           dispatch(nextPage());
         }
       }
-    }, 2000);
+    }, 10000);
   }, [props.totalItems.length]);
 
   return (
