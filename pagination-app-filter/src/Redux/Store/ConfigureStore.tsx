@@ -1,7 +1,8 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
-import filterReducer from "../Redux/Reducers/filterReducer";
-import paginationReducer from "../Redux/Reducers/paginationReducer";
+import filterReducer from "../Reducers/filterReducer";
+import paginationReducer from "../Reducers/paginationReducer";
+
 
 
 const store=createStore(combineReducers({

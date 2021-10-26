@@ -70,7 +70,7 @@ function ListItem(props: Props) {
         dispatch(showItem(fIndex, lIndex));
         setpage((curpage) => curpage + 1);
       }
-    }, 1000);
+    }, 10000);
   }, [props.totalItems.length]);
 
   return (

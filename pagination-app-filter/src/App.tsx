@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
-import store from './Store/ConfigureStore';
 import AppRouter from './components/Routes/AppRouter';
+import store from './Redux/Store/ConfigureStore';
 
 function App() {
   store.subscribe(() => {
