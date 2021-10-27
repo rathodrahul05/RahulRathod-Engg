@@ -1,33 +1,39 @@
+import { TextField, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { getCountry } from "../Redux/Actions/CountryAction";
-import { getCapitalWeather } from "../Redux/Actions/WeatherAction";
-import CountryCard from "./CountryCard";
+import Container from "@mui/material/Container";
 
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 
 function FormComponent() {
   const dispatch = useDispatch();
-  const history=useHistory()
+  const history = useHistory();
   const [country, setCountry] = useState("");
+  const [error, seterror] = useState("");
   const accessKey = "fd17f3bb156bd16e7618c1a91fcdd880";
 
   const getCountryData = async () => {
-    let response = await axios.get(
-      `https://restcountries.com/v2/name/${country}`
-    );
-    console.log(response);
-    dispatch(getCountry(response["data"]));
+    await axios
+      .get(`https://restcountries.com/v2/name/${country}`)
+      .then((response) => {
+        console.log(response);
+        if (response["data"]["status"] !== 404) {
+          dispatch(getCountry(response["data"]));
+          history.push("/countries");
+        } else {
+          seterror("No Records..!!");
+        }
+      });
   };
- const getWeatherData=async (city:string)=>{
-     let response=await axios.get(`http://api.weatherstack.com/current?access_key=fd17f3bb156bd16e7618c1a91fcdd880&query=${city}`)
-     console.log(response['data']['current'])
-     dispatch(getCapitalWeather(response['data']['current']));
-     history.push(`/weatherinfo/${city}`)
 
-
- }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountry(e.target.value);
   };
@@ -36,30 +42,55 @@ function FormComponent() {
     e.preventDefault();
     getCountryData();
   };
-  const displayWeather = (city: string,name:string) => {
-    console.log(city);
-    getWeatherData(city);
-    
-  };
+
   return (
     <>
+     <Container
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          flexWrap: "wrap",
+        }}
+      >
+        <Card sx={{ width: 345, margin: "10px" }}>
+          <CardMedia
+            component="img"
+            alt=""
+            width="200rem"
+            height="300rem"
+            image="https://is5-ssl.mzstatic.com/image/thumb/Purple125/v4/8e/6f/58/8e6f582b-7501-4fc7-1b81-89c6c28815aa/source/512x512bb.jpg"
+          />
+      <h1 className="text-center">Weather App</h1>
       <div className="d-flex justify-content-center align-items-center container my-3">
         <div className="row ">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <input
+            {/* <TextField id="filled-basic" label="Filled" variant="filled" /> */}
+              <TextField
+              variant="standard"
                 type="text"
                 value={country}
                 onChange={handleChange}
                 placeholder="enter country name"
               />
             </div>
-            <button className="btn btn-info m-2">Submit</button>
+            <Button
+            variant="contained"
+              className="btn btn-info m-2"
+              disabled={country.length === 0}
+            >
+              Submit
+            </Button>
+            {error && (
+              <Typography gutterBottom variant="h5" component="div">
+                {error}
+              </Typography>
+            )}
           </form>
         </div>
       </div>
-
-      <CountryCard displayWeather={displayWeather}  />
+      </Card>
+      </Container>
     </>
   );
 }
