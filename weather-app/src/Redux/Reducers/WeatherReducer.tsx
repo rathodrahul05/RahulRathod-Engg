@@ -1,4 +1,4 @@
-import {  ActionType, AppActions, fetchCapitalWeather } from "../../types/actions";
+import {  fetchCapitalWeather } from "../../types/actions";
 import { WeatherInfo } from "../../types/WeatherInfo";
 
 const initialState:WeatherInfo={

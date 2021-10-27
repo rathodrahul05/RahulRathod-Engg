@@ -9,7 +9,6 @@ import Container from "@mui/material/Container";
 import {
   Button,
   Card,
-  CardContent,
   CardMedia,
 } from "@mui/material";
 
@@ -18,7 +17,7 @@ function FormComponent() {
   const history = useHistory();
   const [country, setCountry] = useState("");
   const [error, seterror] = useState("");
-  const accessKey = "fd17f3bb156bd16e7618c1a91fcdd880";
+  
 
   const getCountryData = async () => {
     await axios

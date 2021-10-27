@@ -9,7 +9,6 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import { WeatherInfo } from "../types/WeatherInfo";
 function WeatherCard(props: any) {
   const history = useHistory();
 
