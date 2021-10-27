@@ -9,9 +9,9 @@ function TableComponent(props:Props) {
 
     const dispatch = useDispatch()
     return (
-        <div>
-            <table className="table">
-        <thead>
+        <div className="table-responsive">
+            <table className="table table-striped table-hover">
+        <thead className="table-dark">
           <tr>
             <th>Title</th>
             <th>URL</th>

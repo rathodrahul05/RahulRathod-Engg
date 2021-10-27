@@ -43,13 +43,14 @@ function AestroidInput(props) {
     );
 
     let randomId = response["data"]["near_earth_objects"][`${index}`]["id"];
+    setaestroidId(randomId)
 
-    let response1 = await axios.get(
-      `https://api.nasa.gov/neo/rest/v1/neo/${randomId}?api_key=${key}`
-    );
-    props.dispatch(getRandomAestroid(response1["data"], randomId));
+    // let response1 = await axios.get(
+    //   `https://api.nasa.gov/neo/rest/v1/neo/${randomId}?api_key=${key}`
+    // );
+    // props.dispatch(getRandomAestroid(response1["data"], randomId));
     setloading(false);
-    history.push("/info");
+    // history.push("/info");
   };
 
   const handleChange = (e) => {

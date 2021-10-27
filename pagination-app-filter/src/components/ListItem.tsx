@@ -23,25 +23,29 @@ interface Props {
 
 function ListItem(props: Props) {
   const [page, setpage] = useState(0);
- 
 
   const dispatch = useDispatch();
 
   const handleModal = () => {
     dispatch(closeModal());
   };
-
+  const getFirstAndLastIndex = (page: number) => {
+    let lastIndex = page * 20;
+    let firstIndex = lastIndex - 20;
+    return [lastIndex, firstIndex];
+  };
   const handleNext = () => {
-    setpage((curpage) => curpage + 1);
-    let lastIndex=page*20;
-    let firstIndex=lastIndex-20;
-    dispatch(showItem(firstIndex,lastIndex))
+    if (page < props.totalItems.length / 20) {
+      setpage((curpage) => curpage + 1);
+      let [lastIndex, firstIndex] = getFirstAndLastIndex(page);
+      console.log(lastIndex,firstIndex)
+      dispatch(showItem(firstIndex, lastIndex));
+    }
   };
   const handlePrev = () => {
     setpage((curpage) => curpage - 1);
-    let lastIndex=page*20;
-    let firstIndex=lastIndex-20;
-    dispatch(showItem(firstIndex,lastIndex))
+    let [lastIndex, firstIndex] = getFirstAndLastIndex(page);
+    dispatch(showItem(firstIndex, lastIndex));
   };
   const getData = async (fIndex: number, lIndex: number) => {
     dispatch(fetchItemsRequest());
@@ -67,7 +71,6 @@ function ListItem(props: Props) {
     setTimeout(() => {
       if (page < props.pages) {
         getData(fIndex, lIndex);
-        dispatch(showItem(fIndex, lIndex));
         setpage((curpage) => curpage + 1);
       }
     }, 10000);
@@ -75,34 +78,34 @@ function ListItem(props: Props) {
 
   return (
     <>
-    <ListFilter/>
+      <ListFilter />
       <p>
-        current page {page} of {props.pages}
+        current page {page-1} of {props.totalItems.length / 20}
       </p>
       <button
-        className="btn btn-info mx-2"
+        className="btn btn-info m-2"
         disabled={page <= 0}
         onClick={handlePrev}
       >
         Prev
       </button>
       <button
-        className="btn btn-info mx-2"
+        className="btn btn-info m-2"
         disabled={page >= 50}
         onClick={handleNext}
       >
         Next
       </button>
       {props.loading && <Spinner />}
-      <TableComponent  />
+      <TableComponent />
 
       <ItemsData selectedItem={props.selectedItem} handleModal={handleModal} />
     </>
   );
 }
 
-const mapStateToProps = (state:any) => {
-  let {pagination,filter}=state
+const mapStateToProps = (state: any) => {
+  let { pagination, filter } = state;
   return {
     totalItems: pagination.totalItems,
     loading: pagination.loading,
