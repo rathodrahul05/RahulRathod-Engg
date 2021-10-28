@@ -1,18 +1,17 @@
-import React from 'react'
-import { connect, useDispatch } from 'react-redux';
-import { selectedItem } from '../Redux/Actions/paginationAction';
+import React from "react";
+import { connect, useDispatch } from "react-redux";
+import { selectedItem } from "../Redux/Actions/paginationAction";
 import { DefaultState } from "../Redux/Reducers/paginationReducer";
-interface Props{
-    totalItem:any[],
-    first:number,
-    last:number
+interface Props {
+  totalItem: any[];
+  first: number;
+  last: number;
 }
-function TableComponent(props:Props) {
-
-    const dispatch = useDispatch()
-    return (
-        <div className="table-responsive">
-            <table className="table table-striped table-hover">
+function TableComponent(props: Props) {
+  const dispatch = useDispatch();
+  return (
+    <div className="table-responsive">
+      <table className="table table-striped table-hover">
         <thead className="table-dark">
           <tr>
             <th>Title</th>
@@ -23,7 +22,7 @@ function TableComponent(props:Props) {
           </tr>
         </thead>
         <tbody>
-          {props.totalItem.slice(props.first,props.last).map((item, index) => {
+          {props.totalItem.slice(props.first, props.last).map((item, index) => {
             return (
               <tr key={index}>
                 <td>{item["title"]}</td>
@@ -45,13 +44,12 @@ function TableComponent(props:Props) {
           })}
         </tbody>
       </table>
-        </div>
-    )
+    </div>
+  );
 }
 const mapStateToProps = (state: DefaultState) => {
-    return {
-      totalItem: state.totalItems,
-      
-    };
+  return {
+    totalItem: state.totalItems,
   };
-  export default connect(mapStateToProps)(TableComponent)
+};
+export default connect(mapStateToProps)(TableComponent);
