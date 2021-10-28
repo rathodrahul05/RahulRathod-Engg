@@ -52,6 +52,9 @@ function ListItem(props: Props) {
 
         dispatch(fetchItemsSuccess(items));
         // dispatch(showItem(fIndex, lIndex));
+      }).catch((error)=>{
+          console.log(error);
+          getData()
       });
   };
 
