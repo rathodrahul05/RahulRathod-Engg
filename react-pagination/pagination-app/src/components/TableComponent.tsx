@@ -3,7 +3,9 @@ import { connect, useDispatch } from 'react-redux';
 import { selectedItem } from '../Redux/Actions/paginationAction';
 import { DefaultState } from "../Redux/Reducers/paginationReducer";
 interface Props{
-    items:any[]
+    totalItem:any[],
+    first:number,
+    last:number
 }
 function TableComponent(props:Props) {
 
@@ -21,7 +23,7 @@ function TableComponent(props:Props) {
           </tr>
         </thead>
         <tbody>
-          {props.items.map((item, index) => {
+          {props.totalItem.slice(props.first,props.last).map((item, index) => {
             return (
               <tr key={index}>
                 <td>{item["title"]}</td>
@@ -48,7 +50,7 @@ function TableComponent(props:Props) {
 }
 const mapStateToProps = (state: DefaultState) => {
     return {
-      items: state.items,
+      totalItem: state.totalItems,
       
     };
   };

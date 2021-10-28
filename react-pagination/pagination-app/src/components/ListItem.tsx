@@ -30,25 +30,18 @@ function ListItem(props: Props) {
   const handleModal = () => {
     dispatch(closeModal());
   };
-  const getFirstAndLastIndex = (page: number) => {
-    let lastIndex = page * 20;
-    let firstIndex = lastIndex - 20;
-    return [lastIndex, firstIndex];
-  };
-
+  let lastIndex = page * 20;
+  let firstIndex = lastIndex - 20;
   const handleNext = () => {
     if (page < props.totalItems.length / 20) {
       setpage((curpage) => curpage + 1);
-      let [lastIndex, firstIndex] = getFirstAndLastIndex(page);
-      dispatch(showItem(firstIndex, lastIndex));
     }
   };
   const handlePrev = () => {
     setpage((curpage) => curpage - 1);
-    let [lastIndex, firstIndex] = getFirstAndLastIndex(page);
-    dispatch(showItem(firstIndex, lastIndex));
+   
   };
-  const getData = async (fIndex: number, lIndex: number) => {
+  const getData = async () => {
     dispatch(fetchItemsRequest());
     await axios
       .get(
@@ -58,21 +51,22 @@ function ListItem(props: Props) {
         const items = response.data;
 
         dispatch(fetchItemsSuccess(items));
-        dispatch(showItem(fIndex, lIndex));
+        // dispatch(showItem(fIndex, lIndex));
       });
   };
 
   useEffect(() => {
-    let lIndex = (page + 1) * props.itemsPerPage;
-    let fIndex = lIndex - props.itemsPerPage;
+    // let lIndex = (page + 1) * props.itemsPerPage;
+    // let fIndex = lIndex - props.itemsPerPage;
     if (props.totalItems.length === 0) {
-      getData(fIndex, lIndex);
-      setpage((curpage) => curpage + 1);
+      getData();
+      setpage(page+1)
     }
     setTimeout(() => {
       if (page < props.pages) {
-        getData(fIndex, lIndex);
-        setpage((curpage) => curpage + 1);
+        getData();
+        return(page===0?0:setpage(page+1))
+       
       }
     }, 10000);
   }, [props.totalItems.length]);
@@ -80,7 +74,7 @@ function ListItem(props: Props) {
   return (
     <>
       <p>
-        current page {page - 1} of {props.totalItems.length / 20}
+        current page {page} of {props.totalItems.length / 20}
       </p>
       <button
         className="btn btn-info m-1"
@@ -91,13 +85,13 @@ function ListItem(props: Props) {
       </button>
       <button
         className="btn btn-info m-1"
-        disabled={page >= 50}
+        disabled={page >= props.totalItems.length/20}
         onClick={handleNext}
       >
         Next
       </button>
       {props.loading && <Spinner />}
-      <TableComponent />
+      <TableComponent first={firstIndex} last={lastIndex} />
 
       <ItemsData selectedItem={props.selectedItem} handleModal={handleModal} />
     </>

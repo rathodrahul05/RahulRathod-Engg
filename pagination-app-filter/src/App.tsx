@@ -1,6 +1,6 @@
-import { Provider } from 'react-redux';
-import AppRouter from './components/Routes/AppRouter';
-import store from './Redux/Store/ConfigureStore';
+import { Provider } from "react-redux";
+import AppRouter from "./components/Routes/AppRouter";
+import store from "./Redux/Store/ConfigureStore";
 
 function App() {
   store.subscribe(() => {
@@ -9,9 +9,8 @@ function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <AppRouter/>
-     
-     </Provider>
+        <AppRouter />
+      </Provider>
     </div>
   );
 }
