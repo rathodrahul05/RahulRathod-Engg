@@ -6,10 +6,11 @@ function ListFilter() {
   const [text, settext] = useState("");
   return (
     <div>
-      <input
+      <input 
+      className="m-1"
         type="text"
         value={text}
-        placeholder="filter by title or created_at"
+        placeholder="search by title or created_at"
         onChange={(e) => {
           settext(e.target.value);
           dispatch(filter(e.target.value));

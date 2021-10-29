@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getRandomAestroid } from "../Redux/Actions/aestroidAction";
 import { useHistory } from "react-router-dom";
 import Spinner from "./Spinner";
+import { getAllAestroid } from "../Redux/Actions/GetAllAestroids";
 
 function AestroidInput(props) {
   let history = useHistory();
@@ -12,6 +13,19 @@ function AestroidInput(props) {
   const [aestroidId, setaestroidId] = useState("");
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState("");
+  useEffect(() => {
+    const getAestroids = async () => {
+      setloading(true);
+      let response = await axios.get(
+        `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${key}`
+      );
+      props.dispatch(getAllAestroid(response["data"]["near_earth_objects"]));
+      setloading(false);
+    };
+    if (props.totalAestroids.length === 0) {
+      getAestroids();
+    }
+  }, []);
 
   const getAestroidDetails = async () => {
     await axios
@@ -29,7 +43,6 @@ function AestroidInput(props) {
     setloading(true);
     getAestroidDetails();
     setloading(false);
-
     setaestroidId("");
     seterror("");
   };
@@ -37,20 +50,13 @@ function AestroidInput(props) {
   const handleRandomAestroid = async () => {
     seterror("");
     setloading(true);
-    const index = Math.floor(Math.random() * (19 - 0) + 0);
-    let response = await axios.get(
-      `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${key}`
+    const index = Math.floor(
+      Math.random() * (props.totalAestroids.length - 0) + 0
     );
+    let randomId = props.totalAestroids[index]["id"];
+    setaestroidId(randomId);
 
-    let randomId = response["data"]["near_earth_objects"][`${index}`]["id"];
-    setaestroidId(randomId)
-
-    // let response1 = await axios.get(
-    //   `https://api.nasa.gov/neo/rest/v1/neo/${randomId}?api_key=${key}`
-    // );
-    // props.dispatch(getRandomAestroid(response1["data"], randomId));
     setloading(false);
-    // history.push("/info");
   };
 
   const handleChange = (e) => {
@@ -80,7 +86,11 @@ function AestroidInput(props) {
             >
               Submit
             </button>
-            <button onClick={handleRandomAestroid} className="btn btn-info m-2">
+            <button
+              onClick={handleRandomAestroid}
+              disabled={props.totalAestroids.length === 0}
+              className="btn btn-info m-2"
+            >
               Random Aestroid
             </button>
             {loading && <Spinner />}
@@ -92,8 +102,10 @@ function AestroidInput(props) {
   );
 }
 const mapStateToProps = (state) => {
+  let { Aestroid, TotalAestroids } = state;
   return {
-    aestroidDetails: state,
+    aestroidDetails: Aestroid,
+    totalAestroids: TotalAestroids,
   };
 };
 export default connect(mapStateToProps)(AestroidInput);

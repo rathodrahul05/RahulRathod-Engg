@@ -74,6 +74,7 @@ function FormComponent() {
               />
             </div>
             <Button
+            type="submit"
             variant="contained"
               className="btn btn-info m-2"
               disabled={country.length === 0}

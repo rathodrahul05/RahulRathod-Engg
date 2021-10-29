@@ -22,21 +22,20 @@ interface Props {
 
 function ListItem(props: Props) {
   const [page, setpage] = useState(0);
+  const [currentPage, setcurrentPage] = useState(0);
 
   const dispatch = useDispatch();
-  let lastIndex = page * 20;
+  let lastIndex = (currentPage + 1) * 20;
   let firstIndex = lastIndex - 20;
 
   const handleModal = () => {
     dispatch(closeModal());
   };
   const handleNext = () => {
-    if (page < props.totalItems.length / 20) {
-      setpage((curpage) => curpage + 1);
-    }
+    setcurrentPage(currentPage + 1);
   };
   const handlePrev = () => {
-    setpage((curpage) => curpage - 1);
+    setcurrentPage(currentPage - 1);
   };
   const getData = async () => {
     dispatch(fetchItemsRequest());
@@ -62,24 +61,25 @@ function ListItem(props: Props) {
         setpage((curpage) => curpage + 1);
       }
     }, 10000);
+    // eslint-disable-next-line
   }, [props.totalItems.length]);
 
   return (
     <>
       <ListFilter />
-      <p>
-        current page {page} of {props.totalItems.length / 20}
+      <p style={{fontWeight:'bold'}} className="mx-2">
+        current page {currentPage + 1} of {props.totalItems.length / 20}
       </p>
       <button
         className="btn btn-info m-2"
-        disabled={page <= 0}
+        disabled={currentPage <= 0}
         onClick={handlePrev}
       >
         Prev
       </button>
       <button
         className="btn btn-info m-2"
-        disabled={page >= props.totalItems.length / 20}
+        disabled={currentPage >= props.totalItems.length / 20 - 1}
         onClick={handleNext}
       >
         Next
