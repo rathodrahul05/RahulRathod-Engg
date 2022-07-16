@@ -12,13 +12,7 @@ import { useEffect } from "react";
 // import React, { useEffect, useState } from "react";
 
 function ParkingCharges(props) {
-  const {
-    openModal,
-    setOpenModal,
-    makePayment,
-    carInfo,
-
-  } = props;
+  const { openModal, setOpenModal, makePayment, carInfo } = props;
   const handleClose = () => {
     setOpenModal(false);
   };
@@ -34,10 +28,6 @@ function ParkingCharges(props) {
     boxShadow: 24,
     p: 4,
   };
-
-useEffect(()=>{
-console.log('rendered');
-},[openModal])
 
   return (
     <Modal
@@ -60,7 +50,7 @@ console.log('rendered');
                   <Box>
                     Car No:{carInfo?.carRegistrationNo}
                     <br />
-                    Parking Charges:{carInfo?.parkingCharge?.toFixed(2) } Rs
+                    Parking Charges:{carInfo?.parkingCharge?.toFixed(2)} Rs
                     <br />
                   </Box>
                 </Stack>

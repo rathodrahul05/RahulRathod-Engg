@@ -57,8 +57,9 @@ function AddCarRegistration(props) {
     boxShadow: 24,
     p: 4,
   };
-
+  
   return (
+   
     <Modal
       open={open}
       onClose={handleClose}
@@ -72,7 +73,7 @@ function AddCarRegistration(props) {
             sx={{
               whiteSpace: "nowrap",
             }}
-          >
+            >
             <TableBody>
               <TableRow>
                 <TableCell>
@@ -81,8 +82,9 @@ function AddCarRegistration(props) {
                       Car Registration Number:
                       <br />
                       <TextField
-                        size="small"
-                        type="text"
+                      data-testid="addcar-input"
+                      size="small"
+                      type="text"
                         {...register("carRegistrationNo")}
                         onChange={(e) => setCarNo(e.target.value)}
                       />
@@ -106,7 +108,7 @@ function AddCarRegistration(props) {
                         onChange={(e) => {
                           setParkingTime(e.target.value);
                         }}
-                      />
+                        />
                       <p style={{ color: "red", fontSize: "0.9rem" }}>
                         {errors.parkingTime?.message}
                       </p>
@@ -123,6 +125,7 @@ function AddCarRegistration(props) {
         </form>
       </Box>
     </Modal>
+    
   );
 }
 

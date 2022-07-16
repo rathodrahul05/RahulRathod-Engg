@@ -61,7 +61,7 @@ function ParkingSpace() {
   };
 
   const calculateCharge = (t = totalTime) => {
-    if (t === 0) {
+    if (t<1) {
       return 0;
     } else {
       let temp = t - 2;
@@ -179,12 +179,15 @@ function ParkingSpace() {
     <>
       <h2>Parking Lot</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
+     
         <TextField
-          type="number"
+        data-testid="parking-input"
+          type={'number'}
           placeholder="Enter your number of parking lots"
           {...register("parkingSpaces")}
           onChange={handleChange}
         />
+       
         <p style={{ color: "red", fontSize: "0.9rem" }}>
           {errors.parkingSpaces?.message}
         </p>
