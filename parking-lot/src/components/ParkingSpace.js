@@ -61,15 +61,11 @@ function ParkingSpace() {
   };
 
   const calculateCharge = (t = totalTime) => {
-    console.log(t);
     if (t == 2) {
-      console.log(t);
       return 10;
     } else if (t < 2) {
-      console.log(t);
       return (t * 10) / 2;
     } else {
-      console.log(t);
       let temp = t - 2;
       let min = temp * 60;
       let minutesCharge = 0.1667 * min;
